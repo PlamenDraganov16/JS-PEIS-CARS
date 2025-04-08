@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/headDetails.ejs') %>
+<body>
+    <%- include('./partials/header.ejs') %>
+    <button onclick="window.location.href='/editcar/<%= car._id %>';" class="editButton">Edit post!</button>
+    <h1><%= car.name %></h1>
+    <div>
+        <h2>Short Description:</h2>
+        <p>
+           <%= car.shortDescr %>
+        </p>
+    </div>
+    <div>
+        <h3>Full Description:</h3>
+        <p>
+            <%= car.longDescr %>
+        </p>
+    </div>
+    <div>
+        <h2>The price is just $<%= car.price.toFixed(2) %> </h2>
+    </div>
+    <div class="pictures">
+        <% if (car.images && car.images.length > 0) { %>
+            <% car.images.slice(0, 3).forEach(image => { %>
+                <div>
+                    <img src="/<%= image %>" alt="Car Image">
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No images available for this car.</p>
+        <% } %>
+    </div>
+    <div class="combinedBuyReviews">
+        <div class="form1">
+            <form id="buyForm" action="/catalogue/<%= car._id %>" method="POST">
+                <h2>Buy the car</h2>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <br><br>
+                <label for="phone">Phone:</label>
+                <input type="text" id="phone" name="phone" required>
+                <br><br>
+                <input type="hidden" name="formType" value="purchase">
+                <button type="submit">Send an inquiry</button>
+                </form>
+            </div>
+            <div class="testimonials">
+                <h3>What Our Clients Say</h3>
+                <% reviews.forEach(review => { %>
+                    <blockquote>
+                        "<%= review.review %>" - <%= review.author %> Rating: <%= review.rating  %>
+                    </blockquote>
+                <% }) %>
+            </div>
+        </div>
+        <div class="carouselReview">
+        <div class="form2">
+            <h2>Write a review!</h2>
+            <form id="reviewForm" action="/catalogue/<%= car._id %>" method="POST">
+                <label for="reviewName">Name:</label>
+                <input type="text" id="reviewName" name="author" >
+                <br><br>
+    
+                <label for="rating">Rating:</label>
+                <select id="rating" name="rating" required>
+                    <option value="5">Excellent</option>
+                    <option value="4">Very Good</option>
+                    <option value="3">Good</option>
+                    <option value="2">Fair</option>
+                    <option value="1">Poor</option>
+                </select>
+                <br><br>
+    
+                <label for="comment">Your Review:</label><br>
+                <textarea id="comment" name="review" rows="4" cols="50" placeholder="Example: It was really good!"></textarea>
+                <br><br>
+                <input type="hidden" name="formType" value="review"> 
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+        <div class="carousel-container">
+            <div class="carousel-wrapper" id="carouselWrapper">
+                <% if (car.images && car.images.length > 0) { %>
+                    <% car.images.forEach(image => { %>
+                        <img src="/<%= image %>" alt="Car Image" class="carousel-image">
+                    <% }) %>
+                <% } else { %>
+                    <p>No images available for this car.</p>
+                <% } %>
+            </div>
+            <button class="carousel-button left" onclick="prevPhoto()">❮</button>
+            <button class="carousel-button right" onclick="nextPhoto()">❯</button>
+        </div>
+        
+        </div>
+            <br>
+            <a href="/catalogue"><button>Go back to catalogue page</button></a>
+        </div>
+        <script src="/scriptCar.js"></script>
+    <%- include('./partials/footer.ejs') %>
+</body>
+</html>
+

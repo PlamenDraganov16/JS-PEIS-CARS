@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/headIndex.ejs') %>
+<body>
+    <%- include('./partials/headerIndex.ejs') %>
+    <h1>Edit post</h1>
+    
+    <form action="/editcar/<%= car._id %>" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="<%= car._id %>">
+        <div class="form2">
+        <label for="name">Car Name:</label>
+        <input type="text" id="name" name="name" value="<%= car.name %>" required>
+        
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" value="<%= car.description %>" required>
+    
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" value="<%= car.price %>" required min="0">
+    
+        <label for="fuel">Fuel Type:</label>
+        <select id="fuel" name="fuel">
+            <option value="petrol" <%= car.fuel === 'petrol' ? 'selected' : '' %>>Petrol</option>
+            <option value="diesel" <%= car.fuel === 'diesel' ? 'selected' : '' %>>Diesel</option>
+            <option value="hybrid" <%= car.fuel === 'hybrid' ? 'selected' : '' %>>Hybrid</option>
+            <option value="electric" <%= car.fuel === 'electric' ? 'selected' : '' %>>Electric</option>
+            <option value="petrol/lpg" <%= car.fuel === 'petrol/lpg' ? 'selected' : '' %>>Petrol/LPG</option>
+        </select>
+    
+        <label for="type">Car Type:</label>
+        <select id="type" name="type" required>
+            <option value="sedan" <%= car.type === 'sedan' ? 'selected' : '' %>>Sedan</option>
+            <option value="suv" <%= car.type === 'suv' ? 'selected' : '' %>>SUV</option>
+            <option value="sports" <%= car.type === 'sports' ? 'selected' : '' %>>Sports</option>
+        </select>
+    
+        <label for="brand">Brand:</label>
+        <select id="brand" name="brand">
+            <option value="bmw" <%= car.brand === 'bmw' ? 'selected' : '' %>>BMW</option>
+            <option value="mercedes-benz" <%= car.brand === 'mercedes-benz' ? 'selected' : '' %>>Mercedes-Benz</option>
+        </select>
+    
+        <label for="transmission">Transmission:</label>
+        <select id="transmission" name="transmission">
+            <option value="manual" <%= car.transmission === 'manual' ? 'selected' : '' %>>Manual</option>
+            <option value="automatic" <%= car.transmission === 'automatic' ? 'selected' : '' %>>Automatic</option>
+        </select>
+    
+        <label for="shortDescr">Short Description:</label>
+        <textarea id="shortDescr" name="shortDescr" required><%= car.shortDescr %></textarea>
+    
+        <label for="longDescr">Long Description:</label>
+        <textarea id="longDescr" name="longDescr" required><%= car.longDescr %></textarea>
+
+        <button type="submit">Save Changes</button>
+        </div>
+    </form>
+    <br>
+    <br>
+
+    <a href="/catalogue"><button>Back to Catalogue</button></a>
+    <a href="/home"><button>Back to Home</button></a>
+    <script src="/scriptIndex.js"></script>
+    <%- include('./partials/footer.ejs') %>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<div class="filter">
+    <label for="carFilter">Filter :</label>
+    <select id="carFilter">
+        <option value="all">Type</option>
+        <option value="sports">Sports</option>
+        <option value="sedan">Sedan</option>
+        <option value="cabrio">Cabrio</option>
+        <option value="suv">SUV</option>
+    </select>
+    <select id="brandFilter">
+        <option value="all">Brand</option>
+        <option value="bmw">BMW</option>
+        <option value="mercedes-benz">Mercedes-Benz</option>
+        <option value="audi">Audi</option>
+        <option value="toyota">Toyota</option>
+        <option value="peugeot">Peugeot</option>
+        <option value="volkswagen">Volkswagen</option>
+        <option value="chevrolet">Chevrolet</option>
+        <option value="ferrari">Ferrari</option>
+    </select>
+    <select id="fuelFilter">
+        <option value="all">Fuel</option>
+        <option value="petrol"> Petrol</option>
+        <option value="diesel"> Diesel</option>
+        <option value="hybrid"> Hybrid</option>
+        <option value="electric"> Electric</option>
+        <option value="petrol/lpg">Petrol/LPG</option>
+    </select>
+    <select id="transmissionFilter">
+        <option value="all">Transmission</option>
+        <option value="manual">Manual</option>
+        <option value="automatic">Automatic</option>
+    </select>
+    <select id="sortPrice" onchange="sortCarsByPrice()">
+        <option value="default">Sort by Price</option>
+        <option value="lowHigh">Low to High</option>
+        <option value="highLow">High to Low</option>
+    </select>
+</div>

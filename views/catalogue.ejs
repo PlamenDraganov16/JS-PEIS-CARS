@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/head.ejs') %>
+<body>
+    <%- include('./partials/header.ejs') %>
+    <%- include('./partials/filters.ejs') %>
+    <h2>Our Cars</h2>
+    <div class="carContainer">
+        <% if(cars.length > 0) { %>
+            <% cars.forEach(car => { %>
+                <div class="car" carType=<%= car.type %> fuelType=<%= car.fuel %> brandType=<%= car.brand %> transmissionType=<%= car.transmission %>>
+                    <ul>
+                        <li class="name"><%= car.name %></li>
+                        <li class="description"><%= car.description %></li>
+                        <li class="price">$<%= car.price.toFixed(2) %></li>
+                        <li class="fuel">Fuel: <%= car.fuel %></li>  
+                        <li class="type">Type: <%= car.type %></li> 
+                        <img src="<%= car.images && car.images.length > 0 ? car.images[0] : car.image %>" alt="<%= car.name %>" loading="lazy"/> 
+                    </ul>
+                    <br>
+                    <button onclick="window.location.href='/catalogue/<%= car._id %>';">Buy now!</button> 
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>There are no cars to display...</p>
+        <% } %>
+    </div>
+    <script src="/scriptCatalog.js"></script>
+    <%- include('./partials/footer.ejs') %>
+</body>
+</html>

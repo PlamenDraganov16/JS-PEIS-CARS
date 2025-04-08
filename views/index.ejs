@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/headIndex.ejs') %>
+<body>
+    <%- include('./partials/headerIndex.ejs') %>
+    
+    <div class="main">
+    <h1>Welcome to PeisCars!</h1>
+    <p>Here, you will find beautiful and reliable cars!</p>
+    <form action="/catalogue" method="GET" class="formSearch">
+        <input type="text" name="search" placeholder="Search for a car..." />
+        <button type="submit">Search</button>
+    </form>
+    <div class="combine">
+    <div class="hello">
+    <p>Sell your vehicle at best price!</p>
+    <a href="/addcar"><button>Add car for sale</button></a>
+    </div>
+    <div class="cta">
+        <p>Find your dream car today!</p>
+        <a href="/catalogue"><button>Browse Catalogue</button></a>
+    </div>
+    </div>
+    </div>
+    <script src="/scriptIndex.js"></script>
+    <%- include('./partials/footer.ejs') %>
+</body>
+</html>

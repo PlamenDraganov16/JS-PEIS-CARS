@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/headIndex.ejs') %>
+<body>
+    <%- include('./partials/headerIndex.ejs') %>
+    <h1>Add a New Car</h1>
+    
+    <form  action="/addcar" method="POST" enctype="multipart/form-data">
+        <div class="form2">
+            <label for="name">Car Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required>
+    
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" required min="0">
+    
+            <label for="fuel">Fuel Type:</label>
+            <select id="fuel" name="fuel">
+                <option value="all">Fuel</option>
+                <option value="petrol"> Petrol</option>
+                <option value="diesel"> Diesel</option>
+                <option value="hybrid"> Hybrid</option>
+                <option value="electric"> Electric</option>
+                <option value="petrol/lpg">Petrol/LPG</option>
+            </select>
+    
+            <label for="type">Car Type:</label>
+            <select id="type" name="type" required>
+                <option value="all">Type</option>
+                <option value="sedan">Sedan</option>
+                <option value="suv">SUV</option>
+                <option value="sports">Sports</option>
+                <option value="hatchback">Hatchback</option>
+                <option value="cabrio">Cabrio</option>
+                <option value="truck">Truck</option>
+                <option value="minivan">Minivan</option>
+                <option value="wagon">Wagon</option>
+            </select>
+    
+            <label for="brand">Brand:</label>
+            <select id="brand" name="brand">
+                <option value="all">Brand</option>
+                <option value="bmw">BMW</option>
+                <option value="mercedes-benz">Mercedes-Benz</option>
+                <option value="audi">Audi</option>
+                <option value="toyota">Toyota</option>
+                <option value="peugeot">Peugeot</option>
+                <option value="volkswagen">Volkswagen</option>
+                <option value="chevrolet">Chevrolet</option>
+                <option value="ferrari">Ferrari</option>
+            </select>
+    
+            <label for="transmission">Transmission:</label>
+            <select id="transmission" name="transmission">
+                <option value="all">Transmission</option>
+                <option value="manual">Manual</option>
+                <option value="automatic">Automatic</option>
+            </select>
+    
+            <label for="shortDescr">Short Description:</label>
+            <textarea id="shortDescr" name="shortDescr" required></textarea>
+    
+            <label for="longDescr">Long Description:</label>
+            <textarea id="longDescr" name="longDescr" required></textarea>
+    
+            <label for="images">Upload Car Images:</label>
+            <input type="file" id="images" name="images" multiple required>
+
+            <button type="submit">Add Car</button>
+        </div>
+    </form>
+    <br>
+    <br>
+
+    <a href="/catalogue"><button>Back to Catalogue</button></a>
+    <a href="/home"><button>Back to Home</button></a>
+    <script src="/scriptIndex.js"></script>
+    <%- include('./partials/footer.ejs') %>
+</body>
+</html>
