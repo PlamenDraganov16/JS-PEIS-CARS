@@ -28,15 +28,26 @@
     
         <label for="type">Car Type:</label>
         <select id="type" name="type" required>
-            <option value="sedan" <%= car.type === 'sedan' ? 'selected' : '' %>>Sedan</option>
-            <option value="suv" <%= car.type === 'suv' ? 'selected' : '' %>>SUV</option>
             <option value="sports" <%= car.type === 'sports' ? 'selected' : '' %>>Sports</option>
+            <option value="sedan" <%= car.type === 'sedan' ? 'selected' : '' %>>Sedan</option>
+            <option value="cabrio" <%= car.type === 'cabrio' ? 'selected' : '' %>>Cabrio</option>
+            <option value="suv" <%= car.type === 'suv' ? 'selected' : '' %>>SUV</option>
+            <option value="hatchback" <%= car.type === 'hatchback' ? 'selected' : '' %>>Hatchback</option>
+            <option value="truck" <%= car.type === 'truck' ? 'selected' : '' %>>Truck</option>
+            <option value="minivan" <%= car.type === 'minivan' ? 'selected' : '' %>>Minivan</option>
+            <option value="wagon" <%= car.type === 'wagon' ? 'selected' : '' %>>Wagon</option>
         </select>
     
         <label for="brand">Brand:</label>
         <select id="brand" name="brand">
             <option value="bmw" <%= car.brand === 'bmw' ? 'selected' : '' %>>BMW</option>
             <option value="mercedes-benz" <%= car.brand === 'mercedes-benz' ? 'selected' : '' %>>Mercedes-Benz</option>
+            <option value="audi" <%= car.brand === 'audi' ? 'selected' : '' %>>Audi</option>
+            <option value="toyota" <%= car.brand === 'toyota' ? 'selected' : '' %>>Toyota</option>
+            <option value="peugeot" <%= car.brand === 'peugeot' ? 'selected' : '' %>>Peugeot</option>
+            <option value="volkswagen" <%= car.brand === 'volkswagen' ? 'selected' : '' %>>Volkswagen</option>
+            <option value="chevrolet" <%= car.brand === 'chevrolet' ? 'selected' : '' %>>Chevrolet</option>
+            <option value="ferrari" <%= car.brand === 'ferrari' ? 'selected' : '' %>>Ferrari</option>
         </select>
     
         <label for="transmission">Transmission:</label>
@@ -57,9 +68,10 @@
     <br>
     <br>
 
-    <a href="/catalogue"><button>Back to Catalogue</button></a>
+    <a href="/dashboard"><button>Back to Dashboard</button></a>
     <a href="/home"><button>Back to Home</button></a>
     <script src="/scriptIndex.js"></script>
+    <br>
     <%- include('./partials/footer.ejs') %>
 </body>
 </html>

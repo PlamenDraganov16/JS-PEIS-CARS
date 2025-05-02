@@ -1,0 +1,252 @@
+:root {
+    --background-image: url(background/lightMode.jpg);
+    --text-color: black;
+    --car-bg-color: white;
+    --button-color: #3498db;
+    --button-text-color:white;
+    --button-hover-color:#2980b9;
+    --button-theme-color:#aebfd1;
+    --hOne-color:black;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    animation: fadeIn 0.5s ease-out forwards;
+    
+    background: var(--background-image) no-repeat center center fixed;
+    background-size: cover; 
+    background-position: center;
+    background-attachment: fixed; 
+    background-repeat: no-repeat;
+    transition: 0.5s;
+    color: var(--text-color);
+}
+
+.dark-mode {
+    --background-image: url(/background/darkMode.jpg);
+    --text-color: white;
+    --car-bg-color:#2c2c2c;
+    --button-color: #FF6F00;
+    --button-text-color:white;
+    --button-hover-color:#FFA500;
+    --button-theme-color:#003166;
+    --hOne-color:white;
+}
+
+
+h1 {
+    font-size: 45px;
+    margin-top: 10px;
+    color:var(--hOne-color);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+p {
+    font-size: 18px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+#darkMode {
+    margin-left: 10px;
+    background-color: var(--button-theme-color);
+    color:var(--text-color);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.carContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    color:var(--text-color);
+}
+
+.car {
+    background-color: var(--car-bg-color);  
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 320px;
+    padding: 20px;
+    text-align: center;
+    transition: 0.5s;
+}
+
+.car ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.car li {
+    margin: 5px 0;
+    font-size: 16px;
+    
+}
+
+.name {
+    font-weight: bold;
+}
+
+.car img {
+    
+    max-width: 100%;
+    border-radius: 10px;
+    width: 320px;
+    height: 213.3px;
+}
+
+button {
+    background-color: var(--button-color);
+    color: var(--button-text-color);
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 10px;
+    margin-top: auto;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: var(--button-hover-color);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.filter{
+    margin: 20px;
+}
+
+.filter label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.filter #carFilter {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.filter #transmissionFilter {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.filter #brandFilter {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.filter #fuelFilter {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    cursor: pointer
+}
+
+.filter #sortPrice {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+header {
+    background: #222;
+    color: white;
+    padding: 15px 0px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex; 
+    justify-content: space-between;  
+}
+
+nav {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    flex-grow: 1;
+    padding-left: 148px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;  
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 15px;
+    transition: color 0.3s ease-in-out;
+}
+
+nav ul li a:hover {
+    color: #3498db;
+}
+
+
+.searchContainer {
+    display: flex;
+    justify-content: flex-end; 
+    margin-right: 20px;
+}
+
+.searchContainer #searchInput {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 200px;
+    transition: width 0.3s ease-in-out;
+}
+
+#searchInput:focus {
+    outline: none;
+    width: 250px; 
+}

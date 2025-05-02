@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/headIndex.ejs') %>
+<body>
+    <%- include('../partials/headerIndex.ejs') %>
+    
+    
+<h3>Sign In</h3>
+
+<form action="/login" class="form2" method="POST">
+
+    <label for="username"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="username">
+  
+    <label for="password"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password">
+  
+    <input type="submit" value="Login" class="btn">
+  
+  </form>
+
+<!-- <h3>Register</h3> -->
+
+<!-- <form action="/register" class="form2" method="POST">
+
+  <label for="username"><b>Username</b></label>
+  <input type="text" placeholder="Enter Username" name="username">
+
+  <label for="password"><b>Password</b></label>
+  <input type="password" placeholder="Enter Password" name="password">
+
+  <input type="submit" value="Register" class="btn">
+
+</form> -->
+    
+    <script src="/scriptIndex.js"></script>
+    <%- include('../partials/footer.ejs') %>
+</body>
+</html>
+

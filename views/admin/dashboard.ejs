@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/headIndex.ejs') %>
+</head>
+<body>
+    <%- include('../partials/headerIndex.ejs') %>
+    <div class="adminTitle">
+        <h1>Dashboard</h1>
+    </div>
+    <a href="/addcar"><button>Add car for sale</button></a>
+    <a href="/carposts"><button>View Inventory</button></a>
+
+    <div class="dashboard-container">
+        <div class="dashboard-box">
+          <h2>Latest Reviews</h2>
+          <% if (reviews.length > 0) { %>
+            <% reviews.forEach(comment => { %>
+              <div class="dashboard-item">
+                <p><strong>User:</strong> <%= comment.author %></p>
+                <p><strong>Rating:</strong> <%= comment.rating %> / 5</p>
+                <p><strong>Review:</strong> <%= comment.review %></p>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <p>No reviews available.</p>
+          <% } %>
+        </div>
+    
+        <div class="dashboard-box">
+          <h2>Recent Purchases</h2>
+          <% if (purchases.length > 0) { %>
+            <% purchases.forEach(purchase => { %>
+              <div class="dashboard-item">
+                <p><strong>User:</strong> <%= purchase.name %></p>
+                <p><strong>Phone:</strong> <%= purchase.phone %></p>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <p>No purchases available.</p>
+          <% } %>
+        </div>
+      </div>
+      <div class="logout">
+        <a href="/logout"><button>Logout</button></a>
+      </div>
+    <%- include('../partials/footer.ejs') %>
+    <script src="/scriptIndex.js"></script>
+</body>
+</html>

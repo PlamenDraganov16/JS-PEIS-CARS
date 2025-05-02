@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/headIndex.ejs') %>
+</head>
+<body>
+    <%- include('../partials/headerIndex.ejs') %>
+    <div class="adminTitle">
+        <h1>Dashboard</h1>
+    </div>
+    <a href="/dashboard"><button>Go Back</button></a>
+
+    <div class="carContainerAdmin">
+        <% if (cars.length > 0) { %>
+            <% cars.forEach(car => { %>
+                <div class="car" carType="<%= car.type %>" fuelType="<%= car.fuel %>" brandType="<%= car.brand %>" transmissionType="<%= car.transmission %>">
+                    <ul>
+                        <li class="name"><strong>Name:</strong> <%= car.name %></li>
+                        <li class="price"><strong>Price:</strong> $<%= car.price.toFixed(2) %></li>
+                        <li class="type"><strong>Type:</strong> <%= car.type %></li>
+                    </ul>
+                    <img src="<%= car.images && car.images.length > 0 ? car.images[0] : car.image %>" alt="<%= car.name %>" loading="lazy" />
+                    
+                    <div class="adminActions">
+                        <a href="/editcar/<%= car._id %>"><button>Edit</button></a>
+                        <form action="/deletepost/<%= car._id %>?_method=DELETE" method="POST">
+                        <input type="submit" value="Delete" class="btn-delete btn">
+                        </form>
+                        <a href='/catalogue/<%= car._id %>'><button>View</button></a>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>There are no cars to display...</p>
+        <% } %>
+    </div>
+    <%- include('../partials/footer.ejs') %>
+    <script src="/scriptIndex.js"></script>
+</body>
+</html>
