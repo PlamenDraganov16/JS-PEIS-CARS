@@ -381,3 +381,110 @@ nav ul li a:hover {
 .main {
     display:inline-block;
 }
+
+/* admin css */
+
+.carContainerAdmin {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.car {
+    display: flex;
+    align-items: center;
+    background-color: var(--car-bg-color);
+    color: var(--text-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    transition: transform 0.3s;
+    gap: 20px;
+}
+
+.car:hover {
+    transform: translateY(-3px);
+}
+
+.car img {
+    width: 180px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.car ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+    text-align: left;
+    font-size: 16px;
+}
+
+.car li {
+    margin-bottom: 6px;
+}
+
+.adminActions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.adminActions form {
+    margin: 0;
+}
+
+.btn-delete {
+    background-color: crimson;
+}
+
+.btn-delete:hover {
+    background-color: darkred;
+}
+
+
+.dashboard-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 40px 20px;
+  }
+  
+  .dashboard-box {
+    flex: 1 1 450px;
+    background-color: var(--car-bg-color);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-width: 600px;
+    transition: background-color 0.3s;
+  }
+  
+  .dashboard-box h2 {
+    margin-bottom: 15px;
+    color: var(--hOne-color);
+  }
+  
+  .dashboard-item {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+    text-align: left;
+  }
+  
+  .dashboard-item:last-child {
+    border-bottom: none;
+  }
+  
+  .dashboard-item p {
+    margin: 5px 0;
+  }
+
