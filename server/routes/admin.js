@@ -12,6 +12,9 @@ const fs = require('fs');
 const path = require('path');
 const jwtSecret = process.env.JWT_SECRET;
 
+const { storage } = require('../config/cloudinary');
+const upload = multer({ storage })
+
 const authMiddleware = (req, res, next ) => {
     const token = req.cookies.token;
   
@@ -31,20 +34,20 @@ const authMiddleware = (req, res, next ) => {
 }
 
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const carId = req.carId; 
-        const uploadDir = path.join(__dirname, '..', '..', 'public', 'cars', carId.toString());
-        fs.mkdirSync(uploadDir, { recursive: true });
-        cb(null, uploadDir);
-    },
-    filename: function (req, file, cb) {
-        //if file photo is photo1.jpg new is carId Number.jpg
-        cb(null, Date.now() + path.extname(file.originalname)); 
-    }
-});
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         const carId = req.carId; 
+//         const uploadDir = path.join(__dirname, '..', '..', 'public', 'cars', carId.toString());
+//         fs.mkdirSync(uploadDir, { recursive: true });
+//         cb(null, uploadDir);
+//     },
+//     filename: function (req, file, cb) {
+//         //if file photo is photo1.jpg new is carId Number.jpg
+//         cb(null, Date.now() + path.extname(file.originalname)); 
+//     }
+// });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 
 // GET NEW CAR **
 
@@ -103,12 +106,13 @@ router.get('/editcar/:id', authMiddleware, async (req, res) => {
 router.post('/addcar', authMiddleware, (req, res, next) => {
     req.carId = new mongoose.Types.ObjectId();
     next();
-}, upload.array('images', 10), (req, res) => {
+}, upload.array('images', 15), (req, res) => {
     if (!req.files || req.files.length === 0) {
         return res.status(400).send("No images uploaded.");
     }
 
-    const imagePaths = req.files.map(file => `cars/${req.carId}/${file.filename}`);
+    // const imagePaths = req.files.map(file => `cars/${req.carId}/${file.filename}`);
+    const imagePaths = req.files.map(file => file.path);
 
     const newCar = new Car({
         name: req.body.name,

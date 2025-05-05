@@ -23,7 +23,7 @@
         <% if (car.images && car.images.length > 0) { %>
             <% car.images.slice(0, 3).forEach(image => { %>
                 <div>
-                    <img src="/<%= image %>" alt="Car Image">
+                    <img src="<%= image %>" alt="Car Image">
                 </div>
             <% }) %>
         <% } else { %>
@@ -82,7 +82,7 @@
             <div class="carousel-wrapper" id="carouselWrapper">
                 <% if (car.images && car.images.length > 0) { %>
                     <% car.images.forEach(image => { %>
-                        <img src="/<%= image %>" alt="Car Image" class="carousel-image">
+                        <img src="<%= image %>" alt="Car Image" class="carousel-image">
                     <% }) %>
                 <% } else { %>
                     <p>No images available for this car.</p>
