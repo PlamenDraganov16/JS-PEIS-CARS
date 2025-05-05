@@ -1,76 +1,104 @@
-# JS-PEIS-CARS
+JS-PEIS-CARS 🚗
+![image](https://github.com/user-attachments/assets/7ce9b55b-82b7-495a-97e8-7e68b3ef092c)
 
-![image](https://github.com/user-attachments/assets/b9b87a33-5377-4afa-9985-8c797503f4ee)
-![image](https://github.com/user-attachments/assets/2129e0bb-4333-40f9-bc17-b8fc1a2536c7)
-![image](https://github.com/user-attachments/assets/d7bae18e-c427-4b1f-8787-c98a3c999f17)
+JS-PEIS-CARS is a full-stack web application for managing a virtual car dealership. Built with Node.js, Express, MongoDB, and EJS.
+
+🧩 Features
+🔐 Authentication & Authorization
+![image](https://github.com/user-attachments/assets/bb0e161b-a623-4f10-8889-f76ed886163a)
+
+Admin login with JWT-based authentication
+
+JWT stored as HTTP-only cookies for enhanced security
+
+Routes protected from unauthorized access
+
+Secure logout functionality
+
+🚙 Car Management
+![image](https://github.com/user-attachments/assets/a17f98e0-def7-4947-b9b7-cb4cb97a814b)
+![image](https://github.com/user-attachments/assets/6a8848c4-0dbc-4408-aa0d-a524d79f2551)
 
 
-A web application for a car store, built using EJS, JavaScript, CSS, Express, and MongoDB.
+Add a Car – Admins can upload a new car with images, description, brand, model, and price
+![image](https://github.com/user-attachments/assets/92e35c58-8c70-4157-bb21-378f986985f1)
 
-## Features
+Edit a Car – Update car details via a prefilled edit form
+![image](https://github.com/user-attachments/assets/01abf979-85f6-4017-a6e1-b0e6c4c9eeb1)
 
-- **Car Catalogue**: Browse a list of available cars with details.
+Delete a Car – Remove car listings from the database
 
-- ![image](https://github.com/user-attachments/assets/b6d7def5-47f3-4e0b-aa5d-662fbb71d9cc)
-- ![image](https://github.com/user-attachments/assets/6c4c8cae-48b6-4388-b586-1dd37a359f1e)
+🖼️ Image Handling
+Upload multiple images per car
 
-- **Add New Cars**: Admins can add new cars with images and descriptions.
+Each car gets a dedicated folder for its images
 
-- ![image](https://github.com/user-attachments/assets/6ea97682-1d69-486f-9407-dcbfd602fb64)
+Uploaded images are previewed dynamically
 
-- **Edit Car Details**: Update information about existing cars.
+🛒 Purchase Requests
+Users can submit requests to buy cars
+![image](https://github.com/user-attachments/assets/f87220b9-9afa-4a10-abe0-139ba1c4f117)
 
-- ![image](https://github.com/user-attachments/assets/ec0f1d6b-c140-484b-bd87-32bec5c529d4)
+Purchase forms store relevant user and car information
+![image](https://github.com/user-attachments/assets/3e362826-5d62-4994-acd4-3d11d5c44662)
 
-- **Purchase Cars**: Users can submit purchase requests.
-- **Reviews**: Users can leave reviews for cars.
+Admins can view and manage all requests
 
-- ![image](https://github.com/user-attachments/assets/97a25eb0-ce73-47f3-8541-5938eab6a76d)
+⭐ User Reviews
+Visitors can leave reviews on specific cars
 
-## Technologies Used
+Reviews include a username, rating, and comment
+![image](https://github.com/user-attachments/assets/82ee9a98-013b-432b-baa7-28bb0d95591b)
 
-- **Frontend**: EJS, JavaScript, CSS
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB
-- **Middleware**: Multer for file uploads, Morgan for logging
 
-## Installation
+🧭 Navigation & UI
+Clean and functional UI using EJS templates
 
-1. **Clone the Repository**:
+Responsive layout for desktop and mobile
+![image](https://github.com/user-attachments/assets/4d5ca9ff-44a1-48b6-bc1a-57217bbdd76f)
+![image](https://github.com/user-attachments/assets/ad02aa1d-a078-43c0-86d9-479a345179c3)
 
-   ```bash
-   git clone https://github.com/PlamenDraganov16/JS-PEIS-CARS.git
+Navigation bar for all key actions (Home, Add Car, View Cars, Login)
+![image](https://github.com/user-attachments/assets/586bc1c5-f5e4-428a-96a1-0a972afd0ec7)
 
-Usage
-Home Page: Navigate to http://localhost:3000/home to view the homepage.
+Filtering and sorting (price, brand, rating)
 
-About Page: Learn more about the store at http://localhost:3000/about.
+🛠️ Tech Stack
+Layer	Technology
+Frontend	HTML, CSS, JavaScript, EJS
+Backend	Node.js, Express.js
+Database	MongoDB (via Mongoose)
+Auth & Security	JWT, bcrypt, HTTP-only cookies
+File Uploads	Multer (for image handling)
+Logging	Morgan (HTTP request logger)
 
-Catalogue: View all cars at http://localhost:3000/catalogue.
+📦 Installation
+Clone the Repository:
 
-Add Car: Admins can add new cars at http://localhost:3000/addcar.
+git clone https://github.com/PlamenDraganov16/JS-PEIS-CARS.git
+cd JS-PEIS-CARS
 
-Edit Car: Edit existing car details at http://localhost:3000/editcar/:id.
+Install Dependencies:
+npm install
 
-Project Structure
-models/: Contains Mongoose models for the application.
+Set Up Environment Variables:
+Create a .env file in the root directory:
 
-public/: Static files like CSS, images, and client-side JavaScript.
+PORT=3000
+MONGODB_URI=your_mongodb_uri
+JWT_SECRET=your_secure_jwt_secret
 
-views/: EJS templates for rendering pages.
+Run the App:
+nodemon server
 
-server.js: Main server file where routes and middleware are defined.
+Visit http://localhost:3000 in your browser.
 
-Dependencies
-express: Web framework for Node.js.
+🔐 Admin Auth Overview
+Login route sets a secure, HTTP-only cookie with the JWT
 
-mongoose: ODM for MongoDB.
+Middleware validates the JWT for protected admin routes
+Token expires after a configurable duration
+Logout clears the cookie securely
 
-dotenv: Loads environment variables from a .env file.
-
-multer: Middleware for handling file uploads.
-
-morgan: HTTP request logger middleware.
-
-Contributing
-Contributions are welcome! Please fork the repository and submit a pull request with your changes.
+📄 License
+This project is licensed under the MIT License.
