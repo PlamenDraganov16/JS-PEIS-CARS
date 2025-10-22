@@ -1,5 +1,6 @@
 import express from 'express';
 import Purchase from '../models/buy.js';
+import Review from '../models/review.js';
 import getErrorMessage from '../utils/errorUtils.js';
 import { getCars, getCarsById } from '../services/carService.js';
 
@@ -38,50 +39,28 @@ router.get('/catalogue/:id', async (req, res) => {
   }
 });
 
-// GET LOGIN PAGE **
-
-router.get('/login', async (req, res) => {
-    try {
-        res.render('admin/login', { title: 'Login' });
-    } catch (err) {
-        console.log(err);
-        res.status(404);
-    }
-});
-
 // POST REVIEWS AND PURCHASE **
+router.post('/catalogue/:id', async (req, res) => {
+  try {
+    const { formType } = req.body;
 
-router.post('/catalogue/:id', (req, res) => {
-
-    if (req.body.formType === 'purchase') {
-        const newPurchase = new Purchase(req.body);
-
-        newPurchase.save()
-            .then(() => {
-                res.redirect('/catalogue');
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).send("Error making the purchase");
-            })
-
-    } else if (req.body.formType === 'review') {
-
-        const newReview = new Review(req.body)
-
-        newReview.save()
-            .then(() => {
-                res.redirect('/catalogue');
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).send("Error making the review");
-            })
-
-
-    } else {
-        res.status(400).send("Invalid form submission");
+    if (formType === 'purchase') {
+      const newPurchase = new Purchase(req.body);
+      await newPurchase.save();
+      return res.redirect('/catalogue');
     }
+
+    if (formType === 'review') {
+      const newReview = new Review(req.body);
+      await newReview.save();
+      return res.redirect('/catalogue');
+    }
+
+    res.status(400).send("Invalid form submission");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(getErrorMessage(err));
+  }
 });
 
 export default router;
