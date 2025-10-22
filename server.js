@@ -1,44 +1,51 @@
-require('dotenv').config();
+import 'dotenv/config';
+import express from 'express';
+import morgan from 'morgan';
+import methodOverride from 'method-override';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
-const express = require('express');
-const morgan = require('morgan');
-
-const methodOverride = require('method-override');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
-
-const connectDB = require('./server/config/db');
+import connectDB from './server/config/db.js';
+import mainRoutes from './server/routes/main.js';
+import adminRoutes from './server/routes/admin.js';
 
 const server = express();
 connectDB();
+
 server.set('view engine', 'ejs');
-let PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
-
-//for post requests
-server.use(express.urlencoded({extended: true}));
+// Middleware
+server.use(express.urlencoded({ extended: true }));
 server.use(express.static('public'));
 server.use(morgan('dev'));
 server.use(cookieParser());
 server.use(methodOverride('_method'));
-server.use('/', require('./server/routes/main'));
-server.use('/', require('./server/routes/admin'));
-//Saves the current URL path
+
+// Routes
+server.use('/', mainRoutes);
+server.use('/', adminRoutes);
+
+// Save current URL path
 server.use((req, res, next) => {
-    res.locals.path = req.path;
-    next();
+  res.locals.path = req.path;
+  next();
 });
 
-server.use(session({
-  secret: 'keyboard',
-  resave: false,
-  saveUninitialized: true,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGODBURI
-  }),
-}));
+// Session
+server.use(
+  session({
+    secret: 'keyboard',
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODBURI
+    })
+  })
+);
 
+// Start server
 server.listen(PORT, () => {
-    console.log('Server is running at: http://localhost:3001')
-})
+  console.log(`Server is running at: http://localhost:${PORT}`);
+});
