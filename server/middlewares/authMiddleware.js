@@ -1,17 +1,19 @@
-export default function authMiddleware (req, res, next) {
-    const token = req.cookies.token;
+import jwt from 'jsonwebtoken';
 
-    if (!token) {
-        res.redirect('/login');
-        return;
-    }
+const JWT_SECRET = process.env.JWT_SECRET || 'mysecret';
 
-    try {
-        const decoded = jwt.verify(token, jwtSecret);
-        req.userId = decoded.userId;
-        next();
-    } catch (error) {
-        res.redirect('/login')
-        return;
-    }
-};
+export default function authMiddleware(req, res, next) {
+  const token = req.cookies.auth; 
+
+  if (!token) {
+    return res.redirect('/auth/login'); 
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.userId = decoded.id || decoded.userId;
+    next();
+  } catch (error) {
+    return res.redirect('/auth/login');
+  }
+}

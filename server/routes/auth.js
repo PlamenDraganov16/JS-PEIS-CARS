@@ -17,17 +17,13 @@ router.get('/login', (req, res) => {
 
 // POST LOGIN
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body; 
-
+  const { username, password } = req.body;
   try {
-    const token = await authService.login(email, password);
-
-    res.cookie('auth', token, { httpOnly: true });
-
-    res.redirect('/dashboard');
+    const token = await authService.login(username, password);
+    res.cookie('token', token, { httpOnly: true });
+    res.redirect('/admin/dashboard'); 
   } catch (err) {
-    const errorMessage = getErrorMessage(err);
-    res.status(401).render('admin/login', { error: errorMessage, user: req.body });
+    res.status(401).render('admin/login', { error: err.message, user: req.body });
   }
 });
 
@@ -43,13 +39,13 @@ router.post('/register', async (req, res) => {
         res.redirect('/');
     } catch (err) {
         const errorMessage = getErrorMessage(err);
-        res.status(400).render('admin/register', { error: errorMessage, user: userData });
+        res.status(400).render('admin/login', { error: errorMessage, user: userData, title: 'Login Page' });
     }
 });
 
 // GET LOGOUT
 router.get('/logout', (req, res) => {
-    res.clearCookie('token');
+    res.clearCookie('auth'); 
     res.redirect('/');
 });
 

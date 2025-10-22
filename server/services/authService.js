@@ -6,7 +6,7 @@ import { generateAuthToken } from "../utils/tokenUtils.js";
 
 export default {
     async register(userData) {
-        const userExists = await User.exists({email: userData.email});
+        const userExists = await User.exists({username: userData.username});
         if (userExists) {
             throw new Error('User Already Exists!');
         }
@@ -17,9 +17,9 @@ export default {
 
         return token;
     },
-    async login(email, password) {
+    async login(username, password) {
         // Validate user
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ username });
 
         if(!user) throw new Error('Invalid user or passsword!');
 

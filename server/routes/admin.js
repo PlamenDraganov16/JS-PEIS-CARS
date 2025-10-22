@@ -1,40 +1,73 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import multer from 'multer';
-
-import Car from '../models/car.js';
-import Purchase from '../models/buy.js';
-import Review from '../models/review.js';
-import User from '../models/user.js';
-import getErrorMessage from '../utils/errorUtils.js';
-import authMiddleware from '../middlewares/authMiddleware.js';
-import { storage } from '../config/cloudinary.js';
-
+const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
+const Car = require('../models/car');
+const Purchase = require('../models/buy');
+const Review = require('../models/review');
+const User = require('../models/user');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 const jwtSecret = process.env.JWT_SECRET;
-const upload = multer({ storage });
+
+const { storage } = require('../config/cloudinary');
+const upload = multer({ storage })
+
+const authMiddleware = (req, res, next ) => {
+    const token = req.cookies.token;
+  
+    if(!token) {
+        res.redirect('/login');
+        return;
+    }
+  
+    try {
+      const decoded = jwt.verify(token, jwtSecret);
+      req.userId = decoded.userId;
+      next();
+    } catch(error) {
+        res.redirect('/login')
+        return;
+    }
+}
+
+
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         const carId = req.carId; 
+//         const uploadDir = path.join(__dirname, '..', '..', 'public', 'cars', carId.toString());
+//         fs.mkdirSync(uploadDir, { recursive: true });
+//         cb(null, uploadDir);
+//     },
+//     filename: function (req, file, cb) {
+//         //if file photo is photo1.jpg new is carId Number.jpg
+//         cb(null, Date.now() + path.extname(file.originalname)); 
+//     }
+// });
+
+// const upload = multer({ storage: storage });
 
 // GET NEW CAR **
 
 router.get('/addcar', authMiddleware, (req, res) => {
-    res.render('addcar', { title: 'Add new car' });
+    res.render('addcar', {title: 'Add new car'});
 })
 
 // GET DASHBOARD **
 
 router.get('/dashboard', authMiddleware, async (req, res) => {
     try {
-        let reviews = await Review.find().sort({ createdAt: -1 });
+        let reviews = await Review.find().sort({ createdAt: -1});
         try {
-            let purchases = await Purchase.find().sort({ createdAt: -1 });
-            res.render('admin/dashboard', { reviews, purchases, title: "Dashboard" });
-        } catch (err) {
+            let purchases = await Purchase.find().sort({ createdAt: -1});
+            res.render('admin/dashboard', {reviews, purchases, title: "Dashboard"});
+        } catch(err) {
             console.log(err);
             res.status(500).send('Error Fetching Purchases');
-        }
-    } catch (err) {
+        } 
+    } catch(err) {
         console.log(err);
         res.status(500).send('Error Fetching Reviews');
     }
@@ -42,15 +75,15 @@ router.get('/dashboard', authMiddleware, async (req, res) => {
 
 // GET CAR LIST **
 
-router.get('/carposts', authMiddleware, async (req, res) => {
+router.get('/carposts', authMiddleware, async(req, res) => {
     try {
         let cars = await Car.find().sort({ createdAt: -1 });
         res.render('admin/cars', { cars, title: "Dashboard" });
 
-    } catch (err) {
+   } catch (err) {
         console.log(err);
         res.status(500).send("Server Error");
-    }
+   }
 })
 
 // GET EDIT CAR
@@ -60,7 +93,7 @@ router.get('/editcar/:id', authMiddleware, async (req, res) => {
         const id = req.params.id;
         const car = await Car.findById(id);
         if (!car) return res.status(404).send("Car not found");
-
+        
         res.render('editcar', { title: "Edit Car", car });
     } catch (err) {
         console.log(err);
@@ -91,7 +124,7 @@ router.post('/addcar', authMiddleware, (req, res, next) => {
         transmission: req.body.transmission,
         shortDescr: req.body.shortDescr,
         longDescr: req.body.longDescr,
-        images: imagePaths
+        images: imagePaths 
     });
 
     newCar.save()
@@ -137,23 +170,44 @@ router.post('/editcar/:id', upload.array('images', 10), authMiddleware, async (r
 router.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
-
-        const user = await User.findOne({ username });
-
-        if (!user) {
-            return res.status(401).json({ message: 'Invalid credentials' });
+        
+        const user = await User.findOne( { username } );
+    
+        if(!user) {
+          return res.status(401).json( { message: 'Invalid credentials' } );
         }
-
+    
         const isPasswordValid = await bcrypt.compare(password, user.password);
-
-        if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Invalid credentials' });
+    
+        if(!isPasswordValid) {
+          return res.status(401).json( { message: 'Invalid credentials' } );
         }
-
-        const token = jwt.sign({ userId: user._id }, jwtSecret); //for the cookie
+    
+        const token = jwt.sign({ userId: user._id}, jwtSecret ); //for the cookie
         res.cookie('token', token, { httpOnly: true });
         res.redirect('/dashboard');
+    
+      } catch (error) {
+        console.log(error);
+      }
+})
 
+// POST REGISTER ADMIN **
+
+router.post('/register', async (req, res) => {
+    try {
+        const {username, password} = req.body;
+        const hashedPass = await bcrypt.hash(password, 10);
+
+        try {
+            const user = await User.create({username, password: hashedPass});
+            res.status(201).json({message: 'User Created', user});
+        } catch (err) {
+            if(err.code === 11000) {
+                res.status(409).json({ message: 'User already in use'});
+            }
+            res.status(500).json({ message: 'Internal server error'})
+        }
     } catch (error) {
         console.log(error);
     }
@@ -162,12 +216,39 @@ router.post('/login', async (req, res) => {
 // DELETE CAR POST **
 
 router.delete('/deletepost/:id', authMiddleware, async (req, res) => {
+
     try {
-        await Car.deleteOne({ _id: req.params.id });
-        res.redirect('/dashboard');
+      await Car.deleteOne( { _id: req.params.id } );
+      res.redirect('/dashboard');
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
+  
 });
 
-export default router;
+// GET LOGOUT
+
+router.get('/logout', (req, res) => {
+    res.clearCookie('token');
+    //res.json({ message: 'Logout successful.'});
+    res.redirect('/');
+  });
+
+// POST LOGIN SIMPLE ADMIN **
+
+// server.post('/admin', async (req, res) => {
+//   try {
+//     const { username, password } = req.body;
+    
+//     if(req.body.username === 'admin' && req.body.password === 'password') {
+//       res.send('You are logged in.')
+//     } else {
+//       res.send('Wrong username or password');
+//     }
+
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+
+module.exports = router;
