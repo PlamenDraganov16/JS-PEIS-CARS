@@ -1,53 +1,21 @@
-const express = require('express');
+import express from 'express';
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import multer from 'multer';
+
+import Car from '../models/car.js';
+import Purchase from '../models/buy.js';
+import Review from '../models/review.js';
+import User from '../models/user.js';
+import adminService from '../services/adminService.js';
+import getErrorMessage from '../utils/errorUtils.js';
+import authMiddleware from '../middlewares/authMiddleware.js';
+import { storage } from '../config/cloudinary.js';
+
 const router = express.Router();
-const mongoose = require('mongoose');
-const Car = require('../models/car');
-const Purchase = require('../models/buy');
-const Review = require('../models/review');
-const User = require('../models/user');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const multer = require('multer');
 const jwtSecret = process.env.JWT_SECRET;
-const adminService = require('../services/adminService');
-const getErrorMessage = require('../utils/errorUtils.js')
-
-const { storage } = require('../config/cloudinary');
-const upload = multer({ storage })
-
-const authMiddleware = (req, res, next) => {
-    const token = req.cookies.token;
-
-    if (!token) {
-        res.redirect('/login');
-        return;
-    }
-
-    try {
-        const decoded = jwt.verify(token, jwtSecret);
-        req.userId = decoded.userId;
-        next();
-    } catch (error) {
-        res.redirect('/login')
-        return;
-    }
-}
-
-
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         const carId = req.carId; 
-//         const uploadDir = path.join(__dirname, '..', '..', 'public', 'cars', carId.toString());
-//         fs.mkdirSync(uploadDir, { recursive: true });
-//         cb(null, uploadDir);
-//     },
-//     filename: function (req, file, cb) {
-//         //if file photo is photo1.jpg new is carId Number.jpg
-//         cb(null, Date.now() + path.extname(file.originalname)); 
-//     }
-// });
-
-// const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 // GET NEW CAR **
 
@@ -224,4 +192,4 @@ router.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-module.exports = router;
+export default router;

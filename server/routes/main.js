@@ -1,8 +1,9 @@
-const express = require('express');
+import Review from '../models/review.js';
+import Car from '../models/car.js';
+import Purchase from '../models/buy.js';
+import express from 'express';
+
 const router = express.Router();
-const Review = require('../models/review');
-const Car = require('../models/car');
-const Purchase = require('../models/buy');
 
 
 // GET HOME **
@@ -116,4 +117,4 @@ router.post('/catalogue/:id', (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

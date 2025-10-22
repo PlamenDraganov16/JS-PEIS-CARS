@@ -1,5 +1,5 @@
-const User = require('../models/user.js');
-const jwt = require('jsonwebtoken');
+import User from '../models/user.js';
+import jwt from 'jsonwebtoken';
 
 const SECRET = process.env.JWT_SECRET || 'mysecret'; 
 
@@ -29,6 +29,4 @@ function createToken(user) {
   return jwt.sign(payload, SECRET, { expiresIn: '2d' });
 }
 
-module.exports = {
-  register,
-};
+export default register;
