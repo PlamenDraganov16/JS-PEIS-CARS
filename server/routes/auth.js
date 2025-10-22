@@ -1,7 +1,4 @@
 import express from 'express';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import User from '../models/user.js';
 import authService from '../services/authService.js';
 import getErrorMessage from '../utils/errorUtils.js';
 
@@ -18,24 +15,20 @@ router.get('/login', (req, res) => {
     }
 });
 
+// POST LOGIN
 router.post('/login', async (req, res) => {
-    try {
-        const { username, password } = req.body;
+  const { email, password } = req.body; 
 
-        const user = await User.findOne({ username });
-        if (!user) return res.status(401).render('admin/login', { error: 'Invalid credentials', user: req.body });
+  try {
+    const token = await authService.login(email, password);
 
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) return res.status(401).render('admin/login', { error: 'Invalid credentials', user: req.body });
+    res.cookie('auth', token, { httpOnly: true });
 
-        const token = jwt.sign({ userId: user._id }, jwtSecret);
-        res.cookie('token', token, { httpOnly: true });
-
-        res.redirect('/dashboard');
-    } catch (err) {
-        console.log(err);
-        res.status(500).render('admin/login', { error: getErrorMessage(err), user: req.body });
-    }
+    res.redirect('/dashboard');
+  } catch (err) {
+    const errorMessage = getErrorMessage(err);
+    res.status(401).render('admin/login', { error: errorMessage, user: req.body });
+  }
 });
 
 // POST REGISTER ADMIN

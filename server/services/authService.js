@@ -16,5 +16,21 @@ export default {
         const token = generateAuthToken(user);
 
         return token;
+    },
+    async login(email, password) {
+        // Validate user
+        const user = await User.findOne({ email });
+
+        if(!user) throw new Error('Invalid user or passsword!');
+
+        // Validate password
+        const isValid = await bcrypt.compare(password, user.password);
+
+        if(!isValid) throw new Error('Invalid user or password!');
+        
+        // Create token
+        const token = generateAuthToken(user);
+
+        return token;
     }
 }
