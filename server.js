@@ -24,6 +24,8 @@ server.use(cookieParser());
 server.use(methodOverride('_method'));
 server.use('/', require('./server/routes/main'));
 server.use('/', require('./server/routes/admin'));
+server.use('/', require('./server/routes/auth.js'));
+
 //Saves the current URL path
 server.use((req, res, next) => {
     res.locals.path = req.path;

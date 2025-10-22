@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Review = require('../models/review');
-const Car = require('../models/car');
-const Purchase = require('../models/buy');
+const Review = require('../models/Review');
+const Car = require('../models/Car');
+const Purchase = require('../models/Buy');
 
 
 // GET HOME **

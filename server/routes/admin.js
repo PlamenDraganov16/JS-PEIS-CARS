@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Car = require('../models/car');
-const Purchase = require('../models/buy');
-const Review = require('../models/review');
-const User = require('../models/user');
+const Car = require('../models/Car.js');
+const Purchase = require('../models/Buy.js');
+const Review = require('../models/Review.js');
+const User = require('../models/User.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
@@ -17,22 +17,22 @@ const authMiddleware = require('../middlewares/authMiddleware.js')
 // GET NEW CAR **
 
 router.get('/addcar', authMiddleware, (req, res) => {
-    res.render('addcar', {title: 'Add new car'});
+    res.render('addcar', { title: 'Add new car' });
 })
 
 // GET DASHBOARD **
 
 router.get('/dashboard', authMiddleware, async (req, res) => {
     try {
-        let reviews = await Review.find().sort({ createdAt: -1});
+        let reviews = await Review.find().sort({ createdAt: -1 });
         try {
-            let purchases = await Purchase.find().sort({ createdAt: -1});
-            res.render('admin/dashboard', {reviews, purchases, title: "Dashboard"});
-        } catch(err) {
+            let purchases = await Purchase.find().sort({ createdAt: -1 });
+            res.render('admin/dashboard', { reviews, purchases, title: "Dashboard" });
+        } catch (err) {
             console.log(err);
             res.status(500).send('Error Fetching Purchases');
-        } 
-    } catch(err) {
+        }
+    } catch (err) {
         console.log(err);
         res.status(500).send('Error Fetching Reviews');
     }
@@ -40,15 +40,15 @@ router.get('/dashboard', authMiddleware, async (req, res) => {
 
 // GET CAR LIST **
 
-router.get('/carposts', authMiddleware, async(req, res) => {
+router.get('/carposts', authMiddleware, async (req, res) => {
     try {
         let cars = await Car.find().sort({ createdAt: -1 });
         res.render('admin/cars', { cars, title: "Dashboard" });
 
-   } catch (err) {
+    } catch (err) {
         console.log(err);
         res.status(500).send("Server Error");
-   }
+    }
 })
 
 // GET EDIT CAR
@@ -58,7 +58,7 @@ router.get('/editcar/:id', authMiddleware, async (req, res) => {
         const id = req.params.id;
         const car = await Car.findById(id);
         if (!car) return res.status(404).send("Car not found");
-        
+
         res.render('editcar', { title: "Edit Car", car });
     } catch (err) {
         console.log(err);
@@ -89,7 +89,7 @@ router.post('/addcar', authMiddleware, (req, res, next) => {
         transmission: req.body.transmission,
         shortDescr: req.body.shortDescr,
         longDescr: req.body.longDescr,
-        images: imagePaths 
+        images: imagePaths
     });
 
     newCar.save()
@@ -130,73 +130,16 @@ router.post('/editcar/:id', upload.array('images', 10), authMiddleware, async (r
     }
 });
 
-// POST LOGIN ADMIN **
-
-router.post('/login', async (req, res) => {
-    try {
-        const { username, password } = req.body;
-        
-        const user = await User.findOne( { username } );
-    
-        if(!user) {
-          return res.status(401).json( { message: 'Invalid credentials' } );
-        }
-    
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-    
-        if(!isPasswordValid) {
-          return res.status(401).json( { message: 'Invalid credentials' } );
-        }
-    
-        const token = jwt.sign({ userId: user._id}, jwtSecret ); //for the cookie
-        res.cookie('token', token, { httpOnly: true });
-        res.redirect('/dashboard');
-    
-      } catch (error) {
-        console.log(error);
-      }
-})
-
-// POST REGISTER ADMIN **
-
-router.post('/register', async (req, res) => {
-    try {
-        const {username, password} = req.body;
-        const hashedPass = await bcrypt.hash(password, 10);
-
-        try {
-            const user = await User.create({username, password: hashedPass});
-            res.status(201).json({message: 'User Created', user});
-        } catch (err) {
-            if(err.code === 11000) {
-                res.status(409).json({ message: 'User already in use'});
-            }
-            res.status(500).json({ message: 'Internal server error'})
-        }
-    } catch (error) {
-        console.log(error);
-    }
-})
-
 // DELETE CAR POST **
-
 router.delete('/deletepost/:id', authMiddleware, async (req, res) => {
 
     try {
-      await Car.deleteOne( { _id: req.params.id } );
-      res.redirect('/dashboard');
+        await Car.deleteOne({ _id: req.params.id });
+        res.redirect('/dashboard');
     } catch (error) {
-      console.log(error);
+        console.log(error);
     }
-  
+
 });
-
-// GET LOGOUT
-
-router.get('/logout', (req, res) => {
-    res.clearCookie('token');
-    //res.json({ message: 'Logout successful.'});
-    res.redirect('/');
-  });
 
 module.exports = router;
