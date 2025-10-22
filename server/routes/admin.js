@@ -8,7 +8,6 @@ import Car from '../models/car.js';
 import Purchase from '../models/buy.js';
 import Review from '../models/review.js';
 import User from '../models/user.js';
-import adminService from '../services/adminService.js';
 import getErrorMessage from '../utils/errorUtils.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
 import { storage } from '../config/cloudinary.js';

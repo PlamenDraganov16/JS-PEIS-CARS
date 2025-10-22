@@ -9,6 +9,7 @@ import MongoStore from 'connect-mongo';
 import connectDB from './server/config/db.js';
 import mainRoutes from './server/routes/main.js';
 import adminRoutes from './server/routes/admin.js';
+import authRoutes from './server/routes/auth.js';
 
 const server = express();
 connectDB();
@@ -26,6 +27,7 @@ server.use(methodOverride('_method'));
 // Routes
 server.use('/', mainRoutes);
 server.use('/', adminRoutes);
+server.use('/', authRoutes);
 
 // Save current URL path
 server.use((req, res, next) => {

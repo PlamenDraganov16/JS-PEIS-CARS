@@ -2,7 +2,7 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
-import adminService from '../services/adminService.js';
+import authService from '../services/authService.js';
 import getErrorMessage from '../utils/errorUtils.js';
 
 const router = express.Router();
@@ -43,13 +43,21 @@ router.post('/register', async (req, res) => {
     const userData = req.body;
 
     try {
-        const token = await adminService.register(userData);
+        const token = await authService.register(userData);
+
         res.cookie('auth', token, { httpOnly: true });
+
         res.redirect('/');
     } catch (err) {
         const errorMessage = getErrorMessage(err);
         res.status(400).render('admin/register', { error: errorMessage, user: userData });
     }
+});
+
+// GET LOGOUT
+router.get('/logout', (req, res) => {
+    res.clearCookie('token');
+    res.redirect('/');
 });
 
 export default router;
