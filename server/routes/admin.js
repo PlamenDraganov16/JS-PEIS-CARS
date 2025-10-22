@@ -8,46 +8,11 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
-const fs = require('fs');
-const path = require('path');
 const jwtSecret = process.env.JWT_SECRET;
 
 const { storage } = require('../config/cloudinary');
 const upload = multer({ storage })
-
-const authMiddleware = (req, res, next ) => {
-    const token = req.cookies.token;
-  
-    if(!token) {
-        res.redirect('/login');
-        return;
-    }
-  
-    try {
-      const decoded = jwt.verify(token, jwtSecret);
-      req.userId = decoded.userId;
-      next();
-    } catch(error) {
-        res.redirect('/login')
-        return;
-    }
-}
-
-
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         const carId = req.carId; 
-//         const uploadDir = path.join(__dirname, '..', '..', 'public', 'cars', carId.toString());
-//         fs.mkdirSync(uploadDir, { recursive: true });
-//         cb(null, uploadDir);
-//     },
-//     filename: function (req, file, cb) {
-//         //if file photo is photo1.jpg new is carId Number.jpg
-//         cb(null, Date.now() + path.extname(file.originalname)); 
-//     }
-// });
-
-// const upload = multer({ storage: storage });
+const authMiddleware = require('../middlewares/authMiddleware.js')
 
 // GET NEW CAR **
 
@@ -233,22 +198,5 @@ router.get('/logout', (req, res) => {
     //res.json({ message: 'Logout successful.'});
     res.redirect('/');
   });
-
-// POST LOGIN SIMPLE ADMIN **
-
-// server.post('/admin', async (req, res) => {
-//   try {
-//     const { username, password } = req.body;
-    
-//     if(req.body.username === 'admin' && req.body.password === 'password') {
-//       res.send('You are logged in.')
-//     } else {
-//       res.send('Wrong username or password');
-//     }
-
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
 
 module.exports = router;
