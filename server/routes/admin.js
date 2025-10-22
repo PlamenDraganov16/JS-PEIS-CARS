@@ -159,21 +159,6 @@ router.post('/login', async (req, res) => {
     }
 })
 
-// POST REGISTER ADMIN **
-
-router.post('/register', async (req, res) => {
-  const userData = req.body;
-
-  try {
-    const token = await adminService.register(userData);
-    res.cookie('auth', token);
-    res.redirect('/');
-  } catch (err) {
-    const errorMessage = getErrorMessage(err);
-    res.status(400).render('admin/register', { error: errorMessage, user: userData });
-  }
-});
-
 // DELETE CAR POST **
 
 router.delete('/deletepost/:id', authMiddleware, async (req, res) => {
@@ -183,12 +168,6 @@ router.delete('/deletepost/:id', authMiddleware, async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-});
-
-// GET LOGOUT
-router.get('/logout', (req, res) => {
-    res.clearCookie('token');
-    res.redirect('/');
 });
 
 export default router;
