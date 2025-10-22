@@ -1,7 +1,7 @@
-const User = require('./models/User');
+const User = require('../models/user.js');
 const jwt = require('jsonwebtoken');
 
-const SECRET = process.env.JWT_SECRET || 'mysecret'; // ideally in .env
+const SECRET = process.env.JWT_SECRET || 'mysecret'; 
 
 async function register({ username, password }) {
   if (!username || !password) {

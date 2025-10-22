@@ -8,9 +8,9 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
-const fs = require('fs');
-const path = require('path');
 const jwtSecret = process.env.JWT_SECRET;
+const adminService = require('../services/adminService');
+const getErrorMessage = require('../utils/errorUtils.js')
 
 const { storage } = require('../config/cloudinary');
 const upload = multer({ storage })
@@ -195,59 +195,33 @@ router.post('/login', async (req, res) => {
 // POST REGISTER ADMIN **
 
 router.post('/register', async (req, res) => {
-    try {
-        const { username, password } = req.body;
+  const userData = req.body;
 
-        try {
-            const user = await User.create({ username, password });
-            res.status(201).json({ message: 'User Created', user });
-        } catch (err) {
-            if (err.code === 11000) {
-                res.status(409).json({ message: 'User already in use' });
-            }
-            res.status(500).json({ message: 'Internal server error' })
-        }
-    } catch (error) {
-        console.log(error);
-    }
-})
+  try {
+    const token = await adminService.register(userData);
+    res.cookie('auth', token);
+    res.redirect('/');
+  } catch (err) {
+    const errorMessage = getErrorMessage(err);
+    res.status(400).render('admin/register', { error: errorMessage, user: userData });
+  }
+});
 
 // DELETE CAR POST **
 
 router.delete('/deletepost/:id', authMiddleware, async (req, res) => {
-
     try {
         await Car.deleteOne({ _id: req.params.id });
         res.redirect('/dashboard');
     } catch (error) {
         console.log(error);
     }
-
 });
 
 // GET LOGOUT
-
 router.get('/logout', (req, res) => {
     res.clearCookie('token');
-    //res.json({ message: 'Logout successful.'});
     res.redirect('/');
 });
-
-// POST LOGIN SIMPLE ADMIN **
-
-// server.post('/admin', async (req, res) => {
-//   try {
-//     const { username, password } = req.body;
-
-//     if(req.body.username === 'admin' && req.body.password === 'password') {
-//       res.send('You are logged in.')
-//     } else {
-//       res.send('Wrong username or password');
-//     }
-
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
 
 module.exports = router;
