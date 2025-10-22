@@ -14,8 +14,6 @@ connectDB();
 server.set('view engine', 'ejs');
 let PORT = process.env.PORT || 5000;
 
-
-//for post requests
 server.use(express.urlencoded({extended: true}));
 server.use(express.static('public'));
 server.use('/cars', express.static('public/cars'));
