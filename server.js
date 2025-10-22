@@ -2,17 +2,10 @@ require('dotenv').config();
 
 const express = require('express');
 const morgan = require('morgan');
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const multer = require('multer');
-const fs = require('fs');
-const path = require('path');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-
 
 const connectDB = require('./server/config/db');
 
